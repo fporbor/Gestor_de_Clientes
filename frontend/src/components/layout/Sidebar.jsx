@@ -18,7 +18,7 @@ export default function Sidebar() {
     try {
         const token = localStorage.getItem("token")
 
-        await axios.post("http://localhost:3400/auth/logout", {}, {
+        await axios.post(´${import.meta.env.VITE_API_URL_USERS}/auth/logout``, {}, {
             headers: {
                 Authorization: `Bearer ${token}`
             }

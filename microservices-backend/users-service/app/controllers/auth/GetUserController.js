@@ -11,7 +11,7 @@ export const getUser = async (req, res, next) => {
         // Si el usuario tiene avatar en BD → usarlo
         // Si NO tiene → generar avatar por defecto con iniciales
         const avatar = user.avatar
-            ? `${process.env.BASE_URL || "http://localhost:3400"}/${user.avatar}`
+            ? `${process.env.BASE_URL || `${import.meta.env.VITE_API_URL_USERS}`}/${user.avatar}`
             : `https://ui-avatars.com/api/?name=${encodeURIComponent(user.username)}&background=random`;
 
 

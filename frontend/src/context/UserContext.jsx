@@ -3,7 +3,7 @@ import { authHeaders } from "../services/authHeaders";
 
 export const UserContext = createContext();
 
-const API_ME = "http://localhost:3400/auth/me";
+const API_ME = `${import.meta.env.VITE_API_URL_USERS}/auth/me`;
 
 export function UserProvider({ children }) {
     const [user, setUser] = useState(null);

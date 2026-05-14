@@ -83,7 +83,7 @@ export function useHandleUserCard() {
         return;
       }
 
-      const fullUrl = `http://localhost:3400${data.avatar}`
+      const fullUrl = `${import.meta.env.VITE_API_URL_USERS}${data.avatar}`
 
       setUser(prev  => ({ ...prev, avatar: fullUrl }))
       setAvatarSrc(`${fullUrl}?t=${Date.now()}`)  // ← timestamp para romper caché

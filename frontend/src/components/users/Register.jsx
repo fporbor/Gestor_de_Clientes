@@ -3,7 +3,7 @@ import { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { UserContext } from "../../context/UserContext";
 
-const API = "http://localhost:3400/auth/register";
+const API = `${import.meta.env.VITE_API_URL_USERS}/auth/register`;
 
 export default function Register({ setToken }) {
   const navigate = useNavigate();

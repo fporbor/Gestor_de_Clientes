@@ -3,7 +3,7 @@ import { useState } from "react";
 const TestUser = () => {
   const [response, setResponse] = useState(null);
   const handleTestButton = async () => {
-    const response = await fetch("http://localhost:3400/prueba", {
+    const response = await fetch(`${import.meta.env.VITE_API_URL_USERS}/prueba`, {
       headers: { "Content-Type": "application/json" },
     });
     const data = await response.json();
@@ -14,7 +14,9 @@ const TestUser = () => {
       setResponse(data.welcomeMessage);
     }
 
-    /* const response = await fetch("http://localhost:3400/prueba");
+    /* const response = await fetch(`${import.meta.env.VITE_API_URL_USERS}/prueba`, {
+      headers: { "Content-Type": "application/json" },
+    });
     const data = await response.text();
     setResponse(data); */
   };
