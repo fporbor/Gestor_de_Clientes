@@ -1,0 +1,50 @@
+services:
+  customers-db:
+    container_name: customers-db
+    image: postgres:15
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: customers_service
+    ports:
+      - "5432:5432"
+    networks:
+      practicas_2026:
+        aliases:
+          - customers-db
+    volumes:
+      - customers_data:/var/lib/postgresql/data 
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  customers-service:
+    container_name: customers-service
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    env_file:
+      - .env
+    environment:
+      - NODE_ENV=docker
+    ports:
+      - "3500:3500"
+    depends_on:
+      customers-db:
+        condition: service_healthy
+    networks:
+      practicas_2026:
+        aliases:
+          - customers-service
+    volumes:
+      - ./:/home/node/app
+      - /home/node/app/node_modules
+
+networks:
+  practicas_2026:
+    external: true
+
+volumes:
+  customers_data: 

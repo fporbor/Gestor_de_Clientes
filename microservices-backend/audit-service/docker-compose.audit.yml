@@ -1,0 +1,57 @@
+services:
+  audit-db:
+    container_name: audit-db
+    image: postgres:15
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: audit_service
+    ports:
+      - "5431:5432"
+    networks:
+      practicas_2026:
+        aliases:
+          - audit-db
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    volumes:
+      - audit_data:/var/lib/postgresql/data
+
+  audit-service:
+    container_name: audit-service
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    environment:
+      - NODE_ENV=docker
+      - DATABASE_HOST=audit-db
+      - DATABASE_USERNAME=postgres
+      - DATABASE_PASSWORD=postgres
+      - JWT_SECRET=tu_secreto_aqui
+    ports:
+      - "3600:3600"
+    depends_on:
+      audit-db:
+        condition: service_healthy
+    restart: always
+    networks:
+      practicas_2026:
+        aliases:
+          - audit-service
+    volumes:
+      - ./:/home/node/app
+      - /home/node/app/node_modules
+
+networks:
+  practicas_2026:
+    external: true
+
+volumes:
+  audit_data:
+
+
+
+
